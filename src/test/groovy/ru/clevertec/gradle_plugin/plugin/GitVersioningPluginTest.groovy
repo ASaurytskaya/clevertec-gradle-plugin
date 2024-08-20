@@ -10,7 +10,7 @@ class GitVersioningPluginTest extends Specification {
         def project = ProjectBuilder.builder().build()
 
         when:
-        project.pluginManager.apply("ru.clevertec.gradle_plugin.git-versioning-plugin")
+        project.pluginManager.apply("ru.clevertec.git-versioning-plugin")
 
         then:
         project.tasks.named("checkGitInstalled") != null

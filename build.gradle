@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.clevertec'
-version = '1.0'
+version = '1.1'
 
 repositories {
     mavenCentral()
@@ -21,7 +21,7 @@ gradlePlugin {
 
     plugins {
         gitVersioningPlugin {
-            id = 'ru.clevertec.gradle_plugin.git-versioning-plugin'
+            id = 'ru.clevertec.git-versioning-plugin'
             implementationClass = 'ru.clevertec.gradle_plugin.plugin.GitVersioningPlugin'
         }
     }

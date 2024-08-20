@@ -33,12 +33,12 @@ class AddTag extends DefaultTask {
         try {
             logger.info("Pushing new tag to remote repository")
 
-            GitExecutor.pushToRemote(project, remoteName, newTag)
+            GitExecutor.pushToRemote(project, REMOTE_NAME, newTag)
 
         } catch (Exception e) {
             String message = "Exception during pushing to remote occurs"
             logger.error(message)
-            throw new GradleException(message)
+            throw new GradleException(message, e)
         }
 
         logger.info("addTag task successfully executed, current version: ${newTag}")
