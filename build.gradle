@@ -4,8 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'ru.clevertec'
-version = '1.1'
+group = "ru.clevertec"
+version = "1.10"
 
 repositories {
     mavenCentral()

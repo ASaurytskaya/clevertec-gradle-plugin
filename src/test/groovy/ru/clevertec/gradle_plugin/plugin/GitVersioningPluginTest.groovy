@@ -17,6 +17,7 @@ class GitVersioningPluginTest extends Specification {
         project.tasks.named("checkCurrentTag") != null
         project.tasks.named("checkUncommitedFiles") != null
         project.tasks.named("addTag") != null
+        project.tasks.named("pushToRemote") != null
     }
 
 }

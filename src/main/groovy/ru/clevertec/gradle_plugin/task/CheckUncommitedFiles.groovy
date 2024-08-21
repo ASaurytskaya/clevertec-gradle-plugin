@@ -19,13 +19,14 @@ class CheckUncommitedFiles extends DefaultTask {
 
             String version
             if(output2.isEmpty()) version = "v0.1"
-             else version = output
+            else version = output
 
             String message = "There are uncommitted changes. Please commit your changes before proceeding. Current version: ${version}.uncommitted"
-            logger.error(message)
-            throw new GradleException(message)
+            logger.warn(message)
+            project.tasks.named('checkUncommitedFiles').get().state.executed
         }
 
+        project.tasks.named('checkUncommitedFiles').get().state.didWork
         logger.info("checkUncommitedFiles task successfully executed")
     }
 }

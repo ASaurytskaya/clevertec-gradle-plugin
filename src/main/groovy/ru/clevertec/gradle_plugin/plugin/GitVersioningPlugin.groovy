@@ -6,6 +6,7 @@ import ru.clevertec.gradle_plugin.task.AddTag
 import ru.clevertec.gradle_plugin.task.CheckCurrentTag
 import ru.clevertec.gradle_plugin.task.CheckGitInstalled
 import ru.clevertec.gradle_plugin.task.CheckUncommitedFiles
+import ru.clevertec.gradle_plugin.task.PushToRemote
 
 class GitVersioningPlugin implements Plugin<Project> {
 
@@ -36,6 +37,14 @@ class GitVersioningPlugin implements Plugin<Project> {
             description = "Create tag for current version of project and push changes to remote repository"
 
             dependsOn("checkUncommitedFiles")
+            onlyIf{
+                project.tasks.named("checkUncommitedFiles").get().state.didWork
+            }
+        }
+
+        project.tasks.register("pushToRemote", PushToRemote) {
+            group = "Git Versioning"
+            description = "Push changes to remote repository"
         }
 
     }

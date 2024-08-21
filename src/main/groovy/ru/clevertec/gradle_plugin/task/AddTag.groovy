@@ -1,13 +1,10 @@
 package ru.clevertec.gradle_plugin.task
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.clevertec.gradle_plugin.util.GitExecutor
 
 class AddTag extends DefaultTask {
-
-    private static final String REMOTE_NAME = "origin"
 
     @TaskAction
     void addTag() {
@@ -29,17 +26,6 @@ class AddTag extends DefaultTask {
         GitExecutor.createNewTag(project, newTag)
 
         logger.info("New version tagged: ${newTag}")
-
-        try {
-            logger.info("Pushing new tag to remote repository")
-
-            GitExecutor.pushToRemote(project, REMOTE_NAME, newTag)
-
-        } catch (Exception e) {
-            String message = "Exception during pushing to remote occurs"
-            logger.error(message)
-            throw new GradleException(message, e)
-        }
 
         logger.info("addTag task successfully executed, current version: ${newTag}")
     }
