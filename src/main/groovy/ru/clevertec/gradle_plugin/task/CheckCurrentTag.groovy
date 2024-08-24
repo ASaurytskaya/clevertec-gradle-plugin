@@ -3,7 +3,7 @@ package ru.clevertec.gradle_plugin.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.clevertec.gradle_plugin.util.GitExecutor
+import ru.clevertec.gradle_plugin.service.GitExecutor
 
 class CheckCurrentTag extends DefaultTask {
 
@@ -11,11 +11,10 @@ class CheckCurrentTag extends DefaultTask {
     void checkCurrentTag() {
         logger.info("Executing checkCurrentTag task")
 
+        def gitTagResult = GitExecutor.getInstance(project).currentTag
 
-        def output = GitExecutor.getCurrentTag(project)
-
-        if(!output.isEmpty()) {
-            String message = "Current commit already tagged: ${output}"
+        if(!gitTagResult.isEmpty()) {
+            String message = "Current commit already tagged: ${gitTagResult}"
             logger.error(message)
             throw new GradleException(message)
         }

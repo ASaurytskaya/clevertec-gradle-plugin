@@ -3,7 +3,7 @@ package ru.clevertec.gradle_plugin.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.clevertec.gradle_plugin.util.GitExecutor
+import ru.clevertec.gradle_plugin.service.GitExecutor
 
 class CheckUncommitedFiles extends DefaultTask {
 
@@ -12,21 +12,16 @@ class CheckUncommitedFiles extends DefaultTask {
 
         logger.info("Executing checkUncommitedFiles task")
 
-        def output = GitExecutor.getUncommitedFiles(project)
+        def gitUncommitedFilesResult = GitExecutor.getInstance(project).getUncommitedFiles()
 
-        if(!output.isEmpty()) {
-            def output2 = GitExecutor.getLastTag(project)
-
-            String version
-            if(output2.isEmpty()) version = "v0.1"
-            else version = output
-
+        if(!gitUncommitedFilesResult.isEmpty()) {
+            def gitLastTagResult = GitExecutor.getInstance(project).getLastTag()
+            String version = gitLastTagResult.isEmpty() ? "v0.1" : gitLastTagResult
             String message = "There are uncommitted changes. Please commit your changes before proceeding. Current version: ${version}.uncommitted"
-            logger.warn(message)
-            project.tasks.named('checkUncommitedFiles').get().state.executed
+            logger.error(message)
+            throw new GradleException(message)
         }
 
-        project.tasks.named('checkUncommitedFiles').get().state.didWork
         logger.info("checkUncommitedFiles task successfully executed")
     }
 }

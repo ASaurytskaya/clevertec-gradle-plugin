@@ -2,6 +2,7 @@ package ru.clevertec.gradle_plugin.plugin
 
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import ru.clevertec.gradle_plugin.extension.CustomExtension
 import ru.clevertec.gradle_plugin.task.AddTag
 import ru.clevertec.gradle_plugin.task.CheckCurrentTag
 import ru.clevertec.gradle_plugin.task.CheckGitInstalled
@@ -12,6 +13,8 @@ class GitVersioningPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+
+        project.extensions.create('customExtension', CustomExtension)
 
         project.tasks.register("checkGitInstalled", CheckGitInstalled) {
             group = "Git Versioning"
@@ -34,17 +37,16 @@ class GitVersioningPlugin implements Plugin<Project> {
 
         project.tasks.register("addTag", AddTag) {
             group = "Git Versioning"
-            description = "Create tag for current version of project and push changes to remote repository"
+            description = "Calculate tag for current version of project"
 
             dependsOn("checkUncommitedFiles")
-            onlyIf{
-                project.tasks.named("checkUncommitedFiles").get().state.didWork
-            }
         }
 
         project.tasks.register("pushToRemote", PushToRemote) {
             group = "Git Versioning"
-            description = "Push changes to remote repository"
+            description = "Create tag and push it to remote repository"
+
+            dependsOn("addTag")
         }
 
     }
