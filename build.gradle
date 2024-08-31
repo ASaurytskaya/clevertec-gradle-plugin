@@ -1,0 +1,32 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven-publish'
+}
+
+group = "ru.clevertec"
+version = "1.11"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+}
+
+gradlePlugin {
+
+    plugins {
+        gitVersioningPlugin {
+            id = 'ru.clevertec.git-versioning-plugin'
+            implementationClass = 'ru.clevertec.gradle_plugin.plugin.GitVersioningPlugin'
+        }
+    }
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+}
